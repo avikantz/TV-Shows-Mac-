@@ -16,7 +16,7 @@
 
 @end
 
-@interface GeneratorViewController : NSViewController <NSApplicationDelegate>
+@interface GeneratorViewController : NSViewController <NSApplicationDelegate, NSAlertDelegate>
 
 @property (nonatomic, weak) id <GeneratorDelegate> delegate;
 
@@ -27,6 +27,12 @@
 
 @property (weak) IBOutlet NSButton *exportButton;
 - (IBAction)exportAction:(id)sender;
+
+@property (weak) IBOutlet NSButton *appendButton;
+- (IBAction)appendAction:(id)sender;
+
+@property (weak) IBOutlet NSButton *openButton;
+- (IBAction)openAction:(id)sender;
 
 @property (weak) IBOutlet NSProgressIndicator *spinnerProgressIndicator;
 

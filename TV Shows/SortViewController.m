@@ -21,6 +21,7 @@
 
 - (IBAction)sortAction:(id)sender {
 	[self.delegate didFinishSelectingSortOrder:[sender tag] AndSortTitle:[sender title]];
+	[[NSUserDefaults standardUserDefaults] setInteger:[sender tag] forKey:@"SortOrder"];
 }
 
 @end

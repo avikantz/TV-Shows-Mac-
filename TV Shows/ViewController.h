@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Quartz/Quartz.h>
 #import "TVShow.h"
 #import "AppDelegate.h"
 #import "AddViewController.h"
@@ -26,7 +27,7 @@ typedef NS_ENUM(NSInteger, SortOrder) {
 	SortOrder_SIZE_DES = 9,
 };
 
-@interface ViewController : NSViewController <NSTableViewDataSource, NSTableViewDelegate, AddShowDelegate, ShowEditorDelegate, SortingDelegate, GeneratorDelegate>
+@interface ViewController : NSViewController <NSTableViewDataSource, NSTableViewDelegate, NSOpenSavePanelDelegate, NSUserNotificationCenterDelegate, AddShowDelegate, ShowEditorDelegate, SortingDelegate, GeneratorDelegate>
 
 @property (weak) IBOutlet AppDelegate *appDelegate;
 
@@ -41,6 +42,8 @@ typedef NS_ENUM(NSInteger, SortOrder) {
 - (IBAction)rearrangeAction:(id)sender;
 
 - (IBAction)sortAction:(id)sender;
+
+- (IBAction)openAction:(id)sender;
 
 @end
 

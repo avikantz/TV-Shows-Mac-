@@ -48,7 +48,6 @@
 	[alert setAlertStyle:NSWarningAlertStyle];
 	
 	if ([alert runModal] == NSAlertSecondButtonReturn) {
-		NSLog(@"Deleting...");
 		[self.delegate didConfirmDeleteShowNamed:self.show.Title];
 		[self dismissController:self];
 	}

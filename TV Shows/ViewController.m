@@ -41,7 +41,7 @@
 	ShowList = [TVShow returnShowArrayFromJsonStructure:FullList];
 	
 	allowDragDrop = NO;
-	sortOrder = SortOrder_RANKING;
+	sortOrder = ([[NSUserDefaults standardUserDefaults] integerForKey:@"SortOrder"] != 0)?[[NSUserDefaults standardUserDefaults] integerForKey:@"SortOrder"]:SortOrder_RANKING;
 	
 	[self.tableView reloadData];
 	
@@ -53,6 +53,35 @@
 
 	// Update the view, if already loaded.
 }
+
+// Open a file and set it as data source...
+- (IBAction)openAction:(id)sender {
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	openPanel.title = @"Choose a probably '.dat' data source file...";
+	openPanel.showsHiddenFiles = NO;
+	openPanel.canChooseDirectories = NO;
+	openPanel.canCreateDirectories = NO;
+	openPanel.allowsMultipleSelection = NO;
+	[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
+		if (result == NSModalResponseOK) {
+			NSURL *selection = openPanel.URLs[0];
+			NSString *filepath = [selection.path stringByResolvingSymlinksInPath];
+			if (![NSData dataWithContentsOfFile:filepath])
+				FullList = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"TVShows.dat" ofType:nil]] options:kNilOptions error:nil];
+			else
+				FullList = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filepath] options:kNilOptions error:nil];
+			
+			ShowList = [TVShow returnShowArrayFromJsonStructure:FullList];
+
+			allowDragDrop = NO;
+			sortOrder = SortOrder_RANKING;
+			
+			[self.tableView reloadData];
+			[self updateSortAndInformationLabels];
+		}
+	}];
+}
+
 
 
 #pragma mark - Sorting actions
@@ -70,6 +99,7 @@
 
 - (IBAction)sortAction:(id)sender {
 	sortOrder = [sender tag];
+	[[NSUserDefaults standardUserDefaults] setInteger:[sender tag] forKey:@"SortOrder"];
 	[self sortList];
 	_sortOrderButton.title = [sender title];
 	_rearrangeButton.title = @"Rearrange";
@@ -382,7 +412,7 @@
 	return YES;
 }
 
-#pragma mark - Other methods
+#pragma mark - Exportng list finished
 
 -(void)didFinishExportingGeneratedShowList {
 	NSString *filepath = [self documentsPathForFileName:[NSString stringWithFormat:@"TVShows.dat"]];
@@ -397,6 +427,8 @@
 	[self.tableView reloadData];
 	[self updateSortAndInformationLabels];
 }
+
+#pragma mark - Delete from data source
 
 -(void)didConfirmDeleteShowNamed:(NSString *)name {
 	NSString *filepath = [self documentsPathForFileName:[NSString stringWithFormat:@"TVShows.dat"]];
@@ -422,6 +454,46 @@
 	[self updateSortAndInformationLabels];
 }
 
+#pragma mark - Scheduling notifications
+
+-(void)scheduleNotificationsForShows {
+	NSArray *scheduledNotifications = [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications];
+	for (NSUserNotification *not in scheduledNotifications)
+		[[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:not];
+	
+	for (TVShow *show in ShowList) {
+		if (show.CURRENTLY_FOLLOWING && show.Day) {
+			NSUserNotification *notification = [[NSUserNotification alloc] init];
+			notification.title = [NSString stringWithFormat:@"\"%@\"", show.Title];
+			notification.informativeText = [NSString stringWithFormat:@"New episode for %@", show.Title];
+			
+			NSDate *referenceDate = [NSDate date];
+			NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSLocaleCalendar];
+			NSDateComponents *dateComponents = [calendar components:(NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond) fromDate:referenceDate];
+			NSInteger targetWeekday = show.weekDay;
+			if (dateComponents.weekday >= targetWeekday)
+				dateComponents.weekday++;
+			dateComponents.weekday = targetWeekday;
+			dateComponents.hour = 10;
+			dateComponents.minute = 0;
+			dateComponents.second = arc4random_uniform(60);
+			NSDate *followingTargetDay = [calendar dateFromComponents:dateComponents];
+			notification.deliveryDate = followingTargetDay;
+			[[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
+		}
+	}
+	
+	scheduledNotifications = [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications];
+	for (NSUserNotification *not in scheduledNotifications)
+		NSLog(@"%@ - %@", not.title, not.deliveryDate);
+}
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{
+	return YES;
+}
+
+#pragma mark - Other
+
 -(void)updateSortAndInformationLabels {
 	episodeCount = 0;
 	sizeCount = 0.f;
@@ -430,6 +502,7 @@
 		sizeCount += show.Size;
 	}
 	_informationButton.title = [NSString stringWithFormat:@"%li Shows, %li Episodes (%.2f GB)", ShowList.count, episodeCount, sizeCount];
+//	[self scheduleNotificationsForShows];
 }
 
 - (NSString *)documentsPathForFileName:(NSString *)name {
