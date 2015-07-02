@@ -19,6 +19,7 @@
 		show.Day = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Day"]];
 		show.Episodes = [self numberOfEpisodesInString:show.Detail];
 		show.Size = [self sizeOfShowFromString:show.Detail];
+		show.SizePEpisode = show.Size*1000/show.Episodes;
 		show.CURRENTLY_FOLLOWING = [show.Detail containsString:@"CURRENTLY_FOLLOWING"];
 		show.TO_BE_DOWNLOADED = [show.Detail containsString:@"TO_BE_DOWNLOADED"];
 		show.TO_BE_ENCODED = [show.Detail containsString:@"TO_BE_ENCODED"];
@@ -36,10 +37,9 @@
 
 +(NSInteger)numberOfEpisodesInString:(NSString *)string {
 	NSInteger nooe = 0, to = 0;
-	for (int i = 0; i < 40; ++i) {
+	for (int i = 0; i < 40; ++i)
 		if ([string characterAtIndex:i] == 'E' && [string characterAtIndex:i+1] == 'p' && [string characterAtIndex:i+2] == 'i')
 			to = i-1;
-	}
 	NSString *nooeString = [[string substringFromIndex:MAX(0, to-4)] substringToIndex:4];
 	nooeString = [nooeString stringByReplacingOccurrencesOfString:@", " withString:@""];
 	nooeString = [nooeString stringByReplacingOccurrencesOfString:@"n" withString:@""];

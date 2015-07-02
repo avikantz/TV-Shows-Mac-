@@ -13,12 +13,16 @@
 @property (strong, nonatomic) NSString *Title;
 @property (strong, nonatomic) NSString *Detail;
 @property (strong, nonatomic) NSString *Day;
+
 @property NSInteger weekDay;
+
 @property BOOL CURRENTLY_FOLLOWING;
 @property BOOL TO_BE_DOWNLOADED;
 @property BOOL TO_BE_ENCODED;
+
 @property NSInteger Episodes;
 @property CGFloat Size;
+@property CGFloat SizePEpisode;
 
 +(id)returnShowArrayFromJsonStructure:(id)FullList;
 +(NSInteger)numberOfEpisodesInString:(NSString *)string;

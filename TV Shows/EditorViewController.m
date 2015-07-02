@@ -12,13 +12,16 @@
 
 @end
 
-@implementation EditorViewController
+@implementation EditorViewController {
+	BOOL showingSize;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do view setup here.
 	
 	self.titleLabel.stringValue = self.show.Title;
+	showingSize = NO;
 	self.textView.string = self.show.Detail;
 	if (self.show.CURRENTLY_FOLLOWING) {
 		self.dayPickerComboBox.stringValue = self.show.Day;
@@ -53,14 +56,21 @@
 	}
 }
 
-
+- (void)flagsChanged:(NSEvent *)theEvent {
+	if ([theEvent modifierFlags] & NSAlternateKeyMask)
+		self.titleLabel.stringValue = [NSString stringWithFormat:@"%li Episode%@, avg. %.2f MB", self.show.Episodes, (self.show.Episodes>1)?@"s":@"", self.show.SizePEpisode];
+	else
+		self.titleLabel.stringValue = self.show.Title;
+}
 
 - (NSString *)stringByRemovingName:(NSString *)name FromString:(NSString *)string {
 	NSString *newString = [string stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@ - ", name] withString:@""];
+	newString = [newString stringByReplacingOccurrencesOfString:@"  " withString:@" "];
 	newString = [newString stringByReplacingOccurrencesOfString:@".mkv" withString:@""];
 	newString = [newString stringByReplacingOccurrencesOfString:@".mp4" withString:@""];
 	newString = [newString stringByReplacingOccurrencesOfString:@".cbr" withString:@""];
 	newString = [newString stringByReplacingOccurrencesOfString:@".avi" withString:@""];
+	newString = [newString stringByReplacingOccurrencesOfString:@".srt" withString:@""];
 	return newString;
 }
 

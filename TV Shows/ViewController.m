@@ -20,6 +20,8 @@
 	
 	NSInteger episodeCount;
 	CGFloat sizeCount;
+	
+	BOOL optionKeyPressed;
 }
 
 - (void)viewDidLoad {
@@ -41,11 +43,9 @@
 	ShowList = [TVShow returnShowArrayFromJsonStructure:FullList];
 	
 	allowDragDrop = NO;
+	optionKeyPressed = NO;
 	sortOrder = ([[NSUserDefaults standardUserDefaults] integerForKey:@"SortOrder"] != 0)?[[NSUserDefaults standardUserDefaults] integerForKey:@"SortOrder"]:SortOrder_RANKING;
-	
-	[self.tableView reloadData];
-	
-	[self updateSortAndInformationLabels];
+	[self sortList];
 }
 
 - (void)setRepresentedObject:(id)representedObject {
@@ -82,11 +82,18 @@
 	}];
 }
 
-
+- (void)flagsChanged:(NSEvent *)theEvent {
+	if ([theEvent modifierFlags] & NSAlternateKeyMask)
+		optionKeyPressed = YES;
+	else
+		optionKeyPressed = NO;
+	[self.tableView reloadData];
+}
 
 #pragma mark - Sorting actions
 
 - (IBAction)rearrangeAction:(id)sender {
+	_rearrangeButton.state = ![sender state];
 	if (sortOrder == SortOrder_RANKING)
 		allowDragDrop = !allowDragDrop;
 	else
@@ -210,7 +217,7 @@
 #pragma mark - Table view datasource and delegates
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-	return 27.f;
+	return 31.f;
 }
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
@@ -222,7 +229,7 @@
 	if ([tableColumn.title isEqualToString:@"Name"]) {
 		NameTableCellView *ntsv = [self.tableView makeViewWithIdentifier:@"nameTableCell" owner:self];
 		ntsv.nameTextField.stringValue = [NSString stringWithFormat:@"%@", show.Title];
-		ntsv.rankTextField.stringValue = [NSString stringWithFormat:@"%4ld.", (long)row+1];
+		ntsv.rankTextField.stringValue = [NSString stringWithFormat:@"%4ld. ", (long)row+1];
 		ntsv.dayTextField.stringValue = @"";
 		if (show.CURRENTLY_FOLLOWING)
 			ntsv.dayTextField.stringValue = show.Day;
@@ -230,7 +237,10 @@
 	}
 	if ([tableColumn.title isEqualToString:@"Detail"]) {
 		DetailTableCellView *dtsv = [self.tableView makeViewWithIdentifier:@"detailTableCell" owner:self];
-		dtsv.textField.stringValue = show.Detail;
+		if (optionKeyPressed)
+			dtsv.detailField.stringValue = [NSString stringWithFormat:@"%li Episode%@\t\tavg. (%.2f MB)", show.Episodes, (show.Episodes>1)?@"s":@"", show.SizePEpisode];
+		else
+			dtsv.textField.stringValue = show.Detail;
 		dtsv.currentlyFollowing.hidden = YES;
 		dtsv.toBeDownloaded.hidden = YES;
 		dtsv.toBeDownloaded.image = [NSImage imageNamed:@"TO_BE_DOWNLOADED"];
@@ -502,6 +512,7 @@
 		sizeCount += show.Size;
 	}
 	_informationButton.title = [NSString stringWithFormat:@"%li Shows, %li Episodes (%.2f GB)", ShowList.count, episodeCount, sizeCount];
+	_sortOrderButton.title = [SortViewController titleForSortOrder:sortOrder];
 //	[self scheduleNotificationsForShows];
 }
 

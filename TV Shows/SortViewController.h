@@ -22,4 +22,6 @@
 
 - (IBAction)sortAction:(id)sender;
 
++(NSString *)titleForSortOrder:(NSInteger)sorder;
+
 @end
