@@ -14,6 +14,10 @@
 @property (strong, nonatomic) NSString *Detail;
 @property (strong, nonatomic) NSString *Day;
 
+@property (strong, nonatomic) NSString *imagePosterURL;
+@property (strong, nonatomic) NSString *imageFanartURL;
+@property (strong, nonatomic) NSString *imageBannerURL;
+
 @property NSInteger weekDay;
 
 @property BOOL CURRENTLY_FOLLOWING;

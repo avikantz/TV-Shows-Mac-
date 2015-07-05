@@ -25,6 +25,7 @@
 		59379A361B3DBE9C00B6B843 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 59379A351B3DBE9C00B6B843 /* Item.m */; };
 		59379A381B3DBF6200B6B843 /* info.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 59379A371B3DBF6200B6B843 /* info.jpg */; };
 		59379A3B1B3DBFAF00B6B843 /* GeneratorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59379A3A1B3DBFAF00B6B843 /* GeneratorViewController.m */; };
+		5970FD4D1B48447D00770657 /* NSImage+Blur.m in Sources */ = {isa = PBXBuildFile; fileRef = 5970FD4C1B48447D00770657 /* NSImage+Blur.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,8 @@
 		59379A371B3DBF6200B6B843 /* info.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = info.jpg; sourceTree = "<group>"; };
 		59379A391B3DBFAF00B6B843 /* GeneratorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneratorViewController.h; sourceTree = "<group>"; };
 		59379A3A1B3DBFAF00B6B843 /* GeneratorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratorViewController.m; sourceTree = "<group>"; };
+		5970FD4B1B48447D00770657 /* NSImage+Blur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+Blur.h"; sourceTree = "<group>"; };
+		5970FD4C1B48447D00770657 /* NSImage+Blur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Blur.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +130,8 @@
 		593799EA1B3D681800B6B843 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5970FD4B1B48447D00770657 /* NSImage+Blur.h */,
+				5970FD4C1B48447D00770657 /* NSImage+Blur.m */,
 				59379A1C1B3D7D7700B6B843 /* icon.png */,
 				59379A371B3DBF6200B6B843 /* info.jpg */,
 				59379A171B3D6D3400B6B843 /* TVShows.dat */,
@@ -354,6 +359,7 @@
 				59379A0F1B3D68A300B6B843 /* TVShow.m in Sources */,
 				59379A361B3DBE9C00B6B843 /* Item.m in Sources */,
 				59379A261B3D830800B6B843 /* AddViewController.m in Sources */,
+				5970FD4D1B48447D00770657 /* NSImage+Blur.m in Sources */,
 				59379A2A1B3D9DD700B6B843 /* EditorViewController.m in Sources */,
 				593799EE1B3D681800B6B843 /* AppDelegate.m in Sources */,
 			);

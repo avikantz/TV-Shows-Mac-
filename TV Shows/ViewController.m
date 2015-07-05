@@ -10,6 +10,7 @@
 #import "NameTableCellView.h"
 #import "DetailTableCellView.h"
 #import "HelpViewController.h"
+#import "NSImage+Blur.h"
 
 @implementation ViewController {
 	NSMutableArray *FullList;
@@ -217,8 +218,15 @@
 #pragma mark - Table view datasource and delegates
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
+//	if (row == tableView.selectedRow)
+//		return 93.f;
 	return 31.f;
 }
+
+//-(BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row {
+//	[tableView reloadData];
+//	return YES;
+//}
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
 	return [ShowList count];
@@ -233,6 +241,11 @@
 		ntsv.dayTextField.stringValue = @"";
 		if (show.CURRENTLY_FOLLOWING)
 			ntsv.dayTextField.stringValue = show.Day;
+//		if (row == tableView.selectedRow) {
+//			ntsv.backgroundImageView.image = [[[[NSImage alloc] initWithContentsOfFile:[self imagesPathForFileName:[NSString stringWithFormat:@"%@-poster.jpg", show.Title]]] blurImageWithRadius:10.f] resizeImageWithSize:NSSizeFromCGSize(CGSizeMake(ntsv.frame.size.width, 93))];
+//		}
+//		else
+//			ntsv.backgroundImageView.image = nil;
 		return ntsv;
 	}
 	if ([tableColumn.title isEqualToString:@"Detail"]) {
@@ -259,6 +272,9 @@
 			dtsv.toBeDownloaded.hidden = NO;
 		if (show.CURRENTLY_FOLLOWING)
 			dtsv.currentlyFollowing.hidden = NO;
+		if (row == tableView.selectedRow) {
+			
+		}
 		return dtsv;
 	}
 	NSView *view = [NSView new];
@@ -315,6 +331,41 @@
 		NSMutableDictionary *Show = [[NSMutableDictionary alloc] init];
 		if ([[[FullList objectAtIndex:i] objectForKey:@"Title"] isEqualToString:title])
 			Show = [NSMutableDictionary dictionaryWithDictionary:@{@"Title": title, @"Detail": detail, @"Day": day}];
+		else
+			Show = [FullList objectAtIndex:i];
+		[NewFullList addObject:Show];
+	}
+	FullList = NewFullList;
+	
+	NSData *data = [NSJSONSerialization dataWithJSONObject:FullList options:kNilOptions error:nil];
+	[data writeToFile:filepath atomically:YES];
+	
+	ShowList = [TVShow returnShowArrayFromJsonStructure:FullList];
+	[self sortListWithSortOrder:sortOrder];
+	
+	[self.tableView reloadData];
+	[self updateSortAndInformationLabels];
+}
+
+-(void)didFinishEditingShowWithTitle:(NSString *)title AndShow:(TVShow *)show {
+	NSString *filepath = [self documentsPathForFileName:[NSString stringWithFormat:@"TVShows.dat"]];
+	if (![NSData dataWithContentsOfFile:filepath])
+		FullList = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"FullList" ofType:@"json"]] options:kNilOptions error:nil];
+	else
+		FullList = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filepath] options:kNilOptions error:nil];
+	
+	NSMutableArray *NewFullList = [[NSMutableArray alloc] init];
+	for (int i = 0; i<[FullList count]; ++i) {
+		NSMutableDictionary *Show = [[NSMutableDictionary alloc] init];
+		if ([[[FullList objectAtIndex:i] objectForKey:@"Title"] isEqualToString:title]) {
+			if (show.imagePosterURL && show.imageBannerURL && show.imageFanartURL)
+				Show = [NSMutableDictionary dictionaryWithDictionary:@{@"Title": show.Title, @"Detail": show.Detail, @"Day": show.Day,
+																   @"imagePoster": show.imagePosterURL,
+																   @"imageBanner": show.imageBannerURL,
+																   @"imageFanart": show.imageFanartURL}];
+			else
+				Show = [NSMutableDictionary dictionaryWithDictionary:@{@"Title": show.Title, @"Detail": show.Detail, @"Day": show.Day}];
+		}
 		else
 			Show = [FullList objectAtIndex:i];
 		[NewFullList addObject:Show];
@@ -520,6 +571,14 @@
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
 	NSString *documentsPath = [NSString stringWithFormat:@"%@/Listing (Mac)/", [paths lastObject]];
 	return [documentsPath stringByAppendingPathComponent:name];
+}
+
+- (NSString *)imagesPathForFileName:(NSString *)name {
+	NSFileManager *manager = [NSFileManager defaultManager];
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+	NSString *documentsPath = [NSString stringWithFormat:@"%@", [paths lastObject]];
+	[manager createDirectoryAtPath:[NSString stringWithFormat:@"%@/Listing (Mac)/Images", [paths lastObject]] withIntermediateDirectories:YES attributes:nil error:nil];
+	return [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"Listing (Mac)/Images/%@", name]];
 }
 
 @end

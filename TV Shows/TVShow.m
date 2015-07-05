@@ -17,12 +17,19 @@
 		show.Title = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"Title"]];
 		show.Detail = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Detail"]];
 		show.Day = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Day"]];
+		
+		show.imageBannerURL = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"imageBanner"]];
+		show.imageFanartURL = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"imageFanart"]];
+		show.imagePosterURL = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"imagePoster"]];
+		
 		show.Episodes = [self numberOfEpisodesInString:show.Detail];
 		show.Size = [self sizeOfShowFromString:show.Detail];
 		show.SizePEpisode = show.Size*1000/show.Episodes;
+		
 		show.CURRENTLY_FOLLOWING = [show.Detail containsString:@"CURRENTLY_FOLLOWING"];
 		show.TO_BE_DOWNLOADED = [show.Detail containsString:@"TO_BE_DOWNLOADED"];
 		show.TO_BE_ENCODED = [show.Detail containsString:@"TO_BE_ENCODED"];
+		
 		if ([show.Day isEqualToString:@"SUN"]) show.weekDay = 1;
 		if ([show.Day isEqualToString:@"MON"]) show.weekDay = 2;
 		if ([show.Day isEqualToString:@"TUE"]) show.weekDay = 3;
@@ -30,6 +37,7 @@
 		if ([show.Day isEqualToString:@"THU"]) show.weekDay = 5;
 		if ([show.Day isEqualToString:@"FRI"]) show.weekDay = 6;
 		if ([show.Day isEqualToString:@"SAT"]) show.weekDay = 7;
+		
 		[ShowList addObject:show];
 	}
 	return ShowList;

@@ -30,8 +30,6 @@
 	
 	_savedToDesktopLabel.stringValue = @"Enter path of the root \"Shows\" directory.";
 	
-	_spinnerProgressIndicator.hidden = YES;
-	
 	if ([[NSUserDefaults standardUserDefaults] valueForKey:@"lastEditedPath"])
 		_pathTextField.stringValue = [[NSUserDefaults standardUserDefaults] valueForKey:@"lastEditedPath"];
 	
@@ -40,8 +38,6 @@
 - (IBAction)pathTextFieldDidReturn:(id)sender {
 	
 	[[NSUserDefaults standardUserDefaults] setObject:_pathTextField.stringValue forKey:@"lastEditedPath"];
-	
-	_spinnerProgressIndicator.hidden = NO;
 	
 	showList = [[NSMutableArray alloc] init];
 	
@@ -153,9 +149,6 @@
 	else {
 		_savedToDesktopLabel.stringValue = @"No shows/episodes found. Enter path again.";
 	}
-	
-	_spinnerProgressIndicator.hidden = YES;
-	
 }
 
 - (IBAction)openAction:(id)sender {

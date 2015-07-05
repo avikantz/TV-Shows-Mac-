@@ -14,6 +14,7 @@
 @protocol ShowEditorDelegate <NSObject>
 
 -(void)didFinishEditingShowWithTitle:(NSString *)title AndDetail:(NSString *)detail AndDay:(NSString *)day;
+-(void)didFinishEditingShowWithTitle:(NSString *)title AndShow:(TVShow *)show;
 -(void)didConfirmDeleteShowNamed:(NSString *)name;
 
 @end
@@ -34,6 +35,9 @@
 - (IBAction)doneAction:(id)sender;
 
 - (IBAction)deleteAction:(id)sender;
+
+@property (weak) IBOutlet NSImageView *bannerImageView;
+@property (weak) IBOutlet NSImageView *backgroundImageView;
 
 
 @end

@@ -34,6 +34,4 @@
 @property (weak) IBOutlet NSButton *openButton;
 - (IBAction)openAction:(id)sender;
 
-@property (weak) IBOutlet NSProgressIndicator *spinnerProgressIndicator;
-
 @end

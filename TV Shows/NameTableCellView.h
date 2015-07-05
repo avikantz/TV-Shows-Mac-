@@ -16,4 +16,7 @@
 
 @property (strong, nonatomic) IBOutlet NSTextField *dayTextField;
 
+@property (weak) IBOutlet NSImageView *backgroundImageView;
+
+
 @end
