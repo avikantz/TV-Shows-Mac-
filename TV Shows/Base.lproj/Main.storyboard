@@ -1342,7 +1342,7 @@ CA
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j9q-lB-BDf">
+                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j9q-lB-BDf">
                                 <rect key="frame" x="307" y="493" width="45" height="19"/>
                                 <buttonCell key="cell" type="recessed" title="Done" bezelStyle="recessed" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="17o-wf-XNd">
                                     <behavior key="behavior" lightByContents="YES"/>

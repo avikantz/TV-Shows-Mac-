@@ -30,6 +30,8 @@
 		show.TO_BE_DOWNLOADED = [show.Detail containsString:@"TO_BE_DOWNLOADED"];
 		show.TO_BE_ENCODED = [show.Detail containsString:@"TO_BE_ENCODED"];
 		
+		show.NextEpisode = [self nextEpisodeFromString:show.Detail];
+		
 		if ([show.Day isEqualToString:@"SUN"]) show.weekDay = 1;
 		if ([show.Day isEqualToString:@"MON"]) show.weekDay = 2;
 		if ([show.Day isEqualToString:@"TUE"]) show.weekDay = 3;
@@ -83,14 +85,13 @@
 		[nextep appendFormat:@"%lix", [string integerValue]];
 		for (long i = string.length - 1; i >= 0 ; --i) {
 			if ([string characterAtIndex:i] == 'x' && [string characterAtIndex:i-1] == [string characterAtIndex:0]) {
-				NSLog(@"subs: %@", [string substringFromIndex:i+1]);
-				[nextep appendFormat:@"%0.2li", [[string substringFromIndex:i+1] integerValue]+1];
+				[nextep appendFormat:@"%0.2li", [[string substringFromIndex:i+1] integerValue]];
 				break;
 			}
 		}
 	}
 	else {
-		[nextep appendFormat:@"%0.2li", [string integerValue]+1];
+		[nextep appendFormat:@"%0.2li", [string integerValue]];
 	}
 	return nextep;
 }

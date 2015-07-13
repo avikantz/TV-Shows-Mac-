@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ListRowViewController">
+            <connections>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KU6-MB-4x2">
+                    <rect key="frame" x="0.0" y="4" width="304" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="36" id="4Yb-ZR-gMg"/>
+                    </constraints>
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Labely" id="pgq-dU-GDk">
+                        <font key="font" size="18" name="AvenirNext-UltraLight"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <binding destination="-2" name="value" keyPath="self.representedObject.description" id="mRI-fA-4DV"/>
+                    </connections>
+                </textField>
+                <imageView translatesAutoresizingMaskIntoConstraints="NO" id="gT1-t6-oGw">
+                    <rect key="frame" x="300" y="14" width="16" height="16"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="CURRENTLY_FOLLOWING" id="pJS-yT-ZYA"/>
+                </imageView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="centerY" secondItem="gT1-t6-oGw" secondAttribute="centerY" id="1uu-NB-ydW"/>
+                <constraint firstAttribute="trailing" secondItem="gT1-t6-oGw" secondAttribute="trailing" constant="4" id="4wI-Q6-5JU"/>
+                <constraint firstItem="KU6-MB-4x2" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="2" id="AfO-ab-vWV"/>
+                <constraint firstAttribute="trailing" secondItem="KU6-MB-4x2" secondAttribute="trailing" constant="18" id="Fst-pa-L2p"/>
+                <constraint firstItem="KU6-MB-4x2" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="4" id="aFo-8G-i2m"/>
+                <constraint firstAttribute="bottom" secondItem="KU6-MB-4x2" secondAttribute="bottom" constant="4" id="pP1-Fv-KED"/>
+            </constraints>
+        </customView>
+    </objects>
+    <resources>
+        <image name="CURRENTLY_FOLLOWING" width="16" height="16"/>
+    </resources>
+</document>

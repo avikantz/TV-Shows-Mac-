@@ -35,6 +35,7 @@
 	
 //	[self updateImages];
 	
+	/*
 	if (![[NSImage alloc] initWithContentsOfFile:[self imagesPathForFileName:[NSString stringWithFormat:@"%@-poster.jpg", self.show.Title]]]) {
 		NSString *showString = [[[[self.show.Title lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@"-"] stringByReplacingOccurrencesOfString:@"'" withString:@"-"] stringByReplacingOccurrencesOfString:@"." withString:@""];
 		
@@ -64,18 +65,20 @@
 			  NSLog(@"Response Body:\n%@\n", body);
 			  
 			  NSMutableArray *imagesArray = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil] valueForKey:@"images"];
-			  if ([[imagesArray valueForKey:@"poster"] valueForKey:@"medium"] != nil)
+			  if ([[imagesArray valueForKey:@"poster"] valueForKey:@"medium"]) {
 				  self.show.imagePosterURL = [[imagesArray valueForKey:@"poster"] valueForKey:@"medium"];
-//			  if ([[imagesArray valueForKey:@"banner"] valueForKey:@"full"] != nil)
-//				  self.show.imageBannerURL = [[imagesArray valueForKey:@"banner"] valueForKey:@"full"];
-//			  if ([[imagesArray valueForKey:@"fanart"] valueForKey:@"thumb"] != nil)
-//				  self.show.imageFanartURL = [[imagesArray valueForKey:@"fanart"] valueForKey:@"thumb"];
-			  
-			  [self performSelectorInBackground:@selector(saveImages) withObject:nil];
+	//			  if ([[imagesArray valueForKey:@"banner"] valueForKey:@"full"] != nil)
+	//				  self.show.imageBannerURL = [[imagesArray valueForKey:@"banner"] valueForKey:@"full"];
+	//			  if ([[imagesArray valueForKey:@"fanart"] valueForKey:@"thumb"] != nil)
+	//				  self.show.imageFanartURL = [[imagesArray valueForKey:@"fanart"] valueForKey:@"thumb"];
+				  
+				  [self performSelectorInBackground:@selector(saveImages) withObject:nil];
+				}
 			  
 		  }];
 		[task resume];
 	}
+	*/
 }
 
 -(void)viewDidDisappear {
@@ -85,9 +88,11 @@
 -(void)saveImages {
 	if (![[NSImage alloc] initWithContentsOfFile:[self imagesPathForFileName:[NSString stringWithFormat:@"%@-poster.jpg", self.show.Title]]]) {
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-			NSData *image = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.show.imagePosterURL]];
-			if (image)
+			NSData *image = nil;
+			if (self.show.imagePosterURL) {
+				image = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.show.imagePosterURL]];
 				[image writeToFile:[self imagesPathForFileName:[NSString stringWithFormat:@"%@-poster.jpg", self.show.Title]] atomically:YES];
+			}
 			
 //			[self performSelectorOnMainThread:@selector(updateImages) withObject:nil waitUntilDone:NO];
 		});
@@ -122,6 +127,7 @@
 
 - (IBAction)doneAction:(id)sender {
 	self.show.Detail = [self stringByRemovingName:self.show.Title FromString:self.textView.string];
+	self.show.Day = self.dayPickerComboBox.stringValue;
 //	NSLog(@"URLS: %@\n\n%@\n\n%@", self.show.imageBannerURL, self.show.imageFanartURL, self.show.imagePosterURL);
 	
 	[self.delegate didFinishEditingShowWithTitle:self.show.Title AndShow:self.show];

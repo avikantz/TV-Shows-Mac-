@@ -47,12 +47,31 @@
 	optionKeyPressed = NO;
 	sortOrder = ([[NSUserDefaults standardUserDefaults] integerForKey:@"SortOrder"] != 0)?[[NSUserDefaults standardUserDefaults] integerForKey:@"SortOrder"]:SortOrder_RANKING;
 	[self sortList];
+	
+//	[self updateAppIcon];
 }
 
 - (void)setRepresentedObject:(id)representedObject {
 	[super setRepresentedObject:representedObject];
 
 	// Update the view, if already loaded.
+}
+
+-(void)updateAppIcon {
+	
+//	CIImage *image = [CIImage imageWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForImageResource:@"icon"]]];
+	
+//	NSGraphicsContext *iconContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:[NSBitmapImageRep imageRepWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForImageResource:@"icon"]]]];
+	
+//	NSTextField *field = [[NSTextField alloc] initWithFrame:NSRectFromCGRect(CGRectMake(67, 83, 117, 86))];
+//	field.stringValue = [NSString stringWithFormat:@"%li", ShowList.count];
+//	field.font = [NSFont fontWithName:@"DINAlternate-Bold" size:24.f];
+	
+	[[NSString stringWithFormat:@"%li", ShowList.count] drawInRect:NSRectFromCGRect(CGRectMake(67, 83, 117, 86)) withAttributes:@{NSFontAttributeName: [NSFont fontWithName:@"DINAlternate-Bold" size:24.f]}];
+	
+//	NSImage *image = [[iconContext CIContext] ]
+	
+	[[NSApplication sharedApplication] setApplicationIconImage: [NSImage imageNamed:@"AppIcon"]];
 }
 
 // Open a file and set it as data source...
@@ -522,31 +541,35 @@
 	for (NSUserNotification *not in scheduledNotifications)
 		[[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:not];
 	
+	NSMutableArray *sortedArray = [[NSMutableArray alloc] init];
 	for (TVShow *show in ShowList) {
-		if (show.CURRENTLY_FOLLOWING && show.Day) {
+		if ([show.Detail containsString:@"CURRENTLY_FOLLOWING"])
+			[sortedArray addObject:show];
+	}
+	
+	for (TVShow *show in sortedArray) {
 			NSUserNotification *notification = [[NSUserNotification alloc] init];
 			notification.title = [NSString stringWithFormat:@"\"%@\"", show.Title];
 			notification.informativeText = [NSString stringWithFormat:@"New episode for %@", show.Title];
 			
 			NSDate *referenceDate = [NSDate date];
-			NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSLocaleCalendar];
+			NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
 			NSDateComponents *dateComponents = [calendar components:(NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond) fromDate:referenceDate];
 			NSInteger targetWeekday = show.weekDay;
 			if (dateComponents.weekday >= targetWeekday)
-				dateComponents.weekday++;
+				dateComponents.weekOfMonth++;
 			dateComponents.weekday = targetWeekday;
-			dateComponents.hour = 10;
-			dateComponents.minute = 0;
+			dateComponents.hour = 9;
+			dateComponents.minute = 30;
 			dateComponents.second = arc4random_uniform(60);
 			NSDate *followingTargetDay = [calendar dateFromComponents:dateComponents];
 			notification.deliveryDate = followingTargetDay;
 			[[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
-		}
 	}
 	
-	scheduledNotifications = [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications];
-	for (NSUserNotification *not in scheduledNotifications)
-		NSLog(@"%@ - %@", not.title, not.deliveryDate);
+//	scheduledNotifications = [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications];
+//	for (NSUserNotification *not in scheduledNotifications)
+//		NSLog(@"\n%@ - %@\n\n", not.title, not.deliveryDate);
 }
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{
@@ -564,7 +587,14 @@
 	}
 	_informationButton.title = [NSString stringWithFormat:@"%li Shows, %li Episodes (%.2f GB)", ShowList.count, episodeCount, sizeCount];
 	_sortOrderButton.title = [SortViewController titleForSortOrder:sortOrder];
-//	[self scheduleNotificationsForShows];
+	[self updateAppIcon];
+	
+	NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.avikantz.todaysshows"];
+	[sharedDefaults setObject:FullList forKey:@"fulllist"];
+	[sharedDefaults synchronize];
+	
+	[self scheduleNotificationsForShows];
+	
 }
 
 - (NSString *)documentsPathForFileName:(NSString *)name {

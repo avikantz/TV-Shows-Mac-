@@ -12,7 +12,10 @@
 
 @end
 
-@implementation AppDelegate
+@implementation AppDelegate {
+	NSTimer *timer;
+	BOOL image;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application

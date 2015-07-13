@@ -24,6 +24,8 @@
 @property BOOL TO_BE_DOWNLOADED;
 @property BOOL TO_BE_ENCODED;
 
+@property NSString *NextEpisode;
+
 @property NSInteger Episodes;
 @property CGFloat Size;
 @property CGFloat SizePEpisode;
@@ -31,6 +33,5 @@
 +(id)returnShowArrayFromJsonStructure:(id)FullList;
 +(NSInteger)numberOfEpisodesInString:(NSString *)string;
 +(CGFloat)sizeOfShowFromString:(NSString *)string;
-+(NSString *)nextEpisodeFromString:(NSString *)string;
 
 @end
