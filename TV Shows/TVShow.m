@@ -19,8 +19,8 @@
 		show.Day = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Day"]];
 		
 		show.imageBannerURL = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"imageBanner"]];
-		show.imageFanartURL = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"imageFanart"]];
-		show.imagePosterURL = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"imagePoster"]];
+		show.imageFanartURL = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"imageFanart"]];
+		show.imagePosterURL = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"imagePoster"]];
 		
 		show.Episodes = [self numberOfEpisodesInString:show.Detail];
 		show.Size = [self sizeOfShowFromString:show.Detail];

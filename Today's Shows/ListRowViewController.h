@@ -10,4 +10,6 @@
 
 @interface ListRowViewController : NSViewController
 
+@property (weak) IBOutlet NSImageView *CURRENTLY_FOLLOWING;
+
 @end

@@ -13,7 +13,9 @@
 
 @protocol ShowEditorDelegate <NSObject>
 
+@optional
 -(void)didFinishEditingShowWithTitle:(NSString *)title AndDetail:(NSString *)detail AndDay:(NSString *)day;
+@required
 -(void)didFinishEditingShowWithTitle:(NSString *)title AndShow:(TVShow *)show;
 -(void)didConfirmDeleteShowNamed:(NSString *)name;
 

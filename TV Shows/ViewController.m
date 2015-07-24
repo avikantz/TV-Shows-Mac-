@@ -11,6 +11,7 @@
 #import "DetailTableCellView.h"
 #import "HelpViewController.h"
 #import "NSImage+Blur.h"
+#import "SSZipArchive.h"
 
 @implementation ViewController {
 	NSMutableArray *FullList;
@@ -23,6 +24,9 @@
 	CGFloat sizeCount;
 	
 	BOOL optionKeyPressed;
+	
+	BRRequestUpload *uploadFile;
+	NSData *uploadData;
 }
 
 - (void)viewDidLoad {
@@ -30,10 +34,28 @@
 
 	// Do any additional setup after loading the view.
 	
+	_addButton.alphaValue = 0.0;
+	_sortOrderButton.alphaValue = 0.0;
+	_rearrangeButton.alphaValue = 0.0;
+	_generatorButton.alphaValue = 0.0;
+	_informationButton.alphaValue = 0.0;
+	_tableView.alphaValue = 0.5;
+	
+	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+		context.duration = 1.6f;
+		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+		[_addButton.animator setAlphaValue:1.f];
+		[_sortOrderButton.animator setAlphaValue:1.f];
+		[_rearrangeButton.animator setAlphaValue:1.f];
+		[_generatorButton.animator setAlphaValue:1.f];
+		[_informationButton.animator setAlphaValue:1.f];
+		[_tableView.animator setAlphaValue:1.f];
+	} completionHandler:nil];
+	
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
 	
-	[self.tableView registerForDraggedTypes: [NSArray arrayWithObject: @"public.text"]];
+	[self.tableView registerForDraggedTypes: [NSArray arrayWithObjects:@"public.text", nil]];
 	
 	NSString *filepath = [self documentsPathForFileName:[NSString stringWithFormat:@"TVShows.dat"]];
 	if (![NSData dataWithContentsOfFile:filepath])
@@ -47,6 +69,7 @@
 	optionKeyPressed = NO;
 	sortOrder = ([[NSUserDefaults standardUserDefaults] integerForKey:@"SortOrder"] != 0)?[[NSUserDefaults standardUserDefaults] integerForKey:@"SortOrder"]:SortOrder_RANKING;
 	[self sortList];
+	[self updateSortAndInformationLabels];
 	
 //	[self updateAppIcon];
 }
@@ -102,6 +125,8 @@
 	}];
 }
 
+#pragma mark - Key presses
+
 - (void)flagsChanged:(NSEvent *)theEvent {
 	if ([theEvent modifierFlags] & NSAlternateKeyMask)
 		optionKeyPressed = YES;
@@ -109,6 +134,69 @@
 		optionKeyPressed = NO;
 	[self.tableView reloadData];
 }
+
+#pragma mark - Share and upload
+
+- (IBAction)shareAction:(id)sender {
+	// Upload the database to the server.
+	[SSZipArchive createZipFileAtPath:[self documentsPathForFileName:@"shows.zip"] withFilesAtPaths:[NSArray arrayWithObjects:[self documentsPathForFileName:@"TVShows.dat"], nil]];
+	
+	NSString *filepath = [self documentsPathForFileName:@"shows.zip"];
+	uploadData = [NSData dataWithContentsOfFile:filepath];
+	
+	uploadFile = [[BRRequestUpload alloc] initWithDelegate:self];
+	
+	uploadFile.path = @"/public_html/shows.zip";
+	uploadFile.hostname = @"lordykw.comxa.com";
+	uploadFile.username = @"a8163043";
+	uploadFile.password = @"789UIOjkl";
+	
+	[uploadFile start];
+}
+
+-(BOOL) shouldOverwriteFileWithRequest: (BRRequest *) request {
+	//----- set this as appropriate if you want the file to be overwritten
+	if (request == uploadFile) {
+		//----- if uploading a file, we set it to YES (if set to NO, nothing happens)
+		return YES;
+	}
+	return NO;
+}
+
+- (NSData *) requestDataToSend: (BRRequestUpload *) request {
+	//----- returns data object or nil when complete
+	//----- basically, first time we return the pointer to the NSData.
+	//----- and BR will upload the data.
+	//----- Second time we return nil which means no more data to send
+	NSData *temp = uploadData;   // this is a shallow copy of the pointer
+	uploadData = nil;            // next time around, return nil...
+	return temp;
+}
+
+-(void) requestCompleted: (BRRequest *) request {
+	if (request == uploadFile) {
+		NSLog(@"upload to '%@' completed!", request.hostname);
+		uploadFile = nil;
+		NSAlert *alert = [[NSAlert alloc] init];
+		[alert setMessageText:[NSString stringWithFormat:@"Upload success."]];
+		[alert setInformativeText:@"File \"shows.zip\" upload to server \"lordykw.comxa.com\" successfully completed."];
+		[alert addButtonWithTitle:@"Okie Dokie."];
+		[alert runModal];
+	}
+}
+
+-(void) requestFailed:(BRRequest *) request {
+	if (request == uploadFile) {
+		NSLog(@"Error in uploading: %@", request.error.message);
+		uploadFile = nil;
+		NSAlert *alert = [[NSAlert alloc] init];
+		[alert setMessageText:[NSString stringWithFormat:@"Upload failed."]];
+		[alert setInformativeText:[NSString stringWithFormat:@"File \"shows.zip\" upload to server \"lordykw.comxa.com\" failed with error: %@.", request.error.message]];
+		[alert addButtonWithTitle:@"Okie Dokie."];
+		[alert runModal];
+	}
+}
+
 
 #pragma mark - Sorting actions
 
@@ -237,9 +325,7 @@
 #pragma mark - Table view datasource and delegates
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-//	if (row == tableView.selectedRow)
-//		return 93.f;
-	return 31.f;
+	return 32.f;
 }
 
 //-(BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row {
@@ -338,34 +424,6 @@
 	}
 }
 
--(void)didFinishEditingShowWithTitle:(NSString *)title AndDetail:(NSString *)detail AndDay:(NSString *)day {
-	NSString *filepath = [self documentsPathForFileName:[NSString stringWithFormat:@"TVShows.dat"]];
-	if (![NSData dataWithContentsOfFile:filepath])
-		FullList = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"FullList" ofType:@"json"]] options:kNilOptions error:nil];
-	else
-		FullList = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filepath] options:kNilOptions error:nil];
-	
-	NSMutableArray *NewFullList = [[NSMutableArray alloc] init];
-	for (int i = 0; i<[FullList count]; ++i) {
-		NSMutableDictionary *Show = [[NSMutableDictionary alloc] init];
-		if ([[[FullList objectAtIndex:i] objectForKey:@"Title"] isEqualToString:title])
-			Show = [NSMutableDictionary dictionaryWithDictionary:@{@"Title": title, @"Detail": detail, @"Day": day}];
-		else
-			Show = [FullList objectAtIndex:i];
-		[NewFullList addObject:Show];
-	}
-	FullList = NewFullList;
-	
-	NSData *data = [NSJSONSerialization dataWithJSONObject:FullList options:kNilOptions error:nil];
-	[data writeToFile:filepath atomically:YES];
-	
-	ShowList = [TVShow returnShowArrayFromJsonStructure:FullList];
-	[self sortListWithSortOrder:sortOrder];
-	
-	[self.tableView reloadData];
-	[self updateSortAndInformationLabels];
-}
-
 -(void)didFinishEditingShowWithTitle:(NSString *)title AndShow:(TVShow *)show {
 	NSString *filepath = [self documentsPathForFileName:[NSString stringWithFormat:@"TVShows.dat"]];
 	if (![NSData dataWithContentsOfFile:filepath])
@@ -456,6 +514,8 @@
 	
 	return YES;
 }
+
+
 
 #pragma mark - Navigation
 
@@ -585,9 +645,11 @@
 		episodeCount += show.Episodes;
 		sizeCount += show.Size;
 	}
-	_informationButton.title = [NSString stringWithFormat:@"%li Shows, %li Episodes (%.2f GB)", ShowList.count, episodeCount, sizeCount];
+	_informationButton.title = [NSString stringWithFormat:@"%li Episodes (%.2f GB)", episodeCount, sizeCount];
 	_sortOrderButton.title = [SortViewController titleForSortOrder:sortOrder];
 	[self updateAppIcon];
+	
+	self.view.window.title = [NSString stringWithFormat:@"TV Shows (Total: %li)", FullList.count];
 	
 	NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.avikantz.todaysshows"];
 	[sharedDefaults setObject:FullList forKey:@"fulllist"];

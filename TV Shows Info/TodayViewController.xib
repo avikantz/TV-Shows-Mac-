@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TodayViewController">
+            <connections>
+                <outlet property="episodesCountLabel" destination="5rj-g9-6Rf" id="EXR-k8-btO"/>
+                <outlet property="showsCountLabel" destination="y7g-9i-J1z" id="uGg-eQ-SfD"/>
+                <outlet property="sizeCountLabel" destination="OeZ-86-Lnf" id="ZRe-Ta-gJ7"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView simulatedAppContext="notificationCenter" translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5rj-g9-6Rf">
+                    <rect key="frame" x="105" y="57" width="197" height="33"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="8765 Episodes" id="h9v-MB-zo7">
+                        <font key="font" size="20" name="AvenirNext-UltraLight"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                    </textFieldCell>
+                </textField>
+                <imageView translatesAutoresizingMaskIntoConstraints="NO" id="eI4-fe-PzA">
+                    <rect key="frame" x="20" y="10" width="84" height="84"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="84" id="UM1-8a-dsO"/>
+                        <constraint firstAttribute="height" constant="84" id="W7S-K9-613"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="icon" id="JrF-Yg-9A1"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y7g-9i-J1z">
+                    <rect key="frame" x="42" y="33" width="41" height="27"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="112" drawsBackground="YES" id="kz7-UQ-eqP">
+                        <font key="font" size="20" name="EtelkaNarrowTextPro"/>
+                        <color key="textColor" name="windowFrameTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OeZ-86-Lnf">
+                    <rect key="frame" x="105" y="14" width="197" height="33"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="751.23 GB" id="cda-f4-aGp">
+                        <font key="font" size="20" name="AvenirNext-UltraLight"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                    </textFieldCell>
+                </textField>
+                <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="light" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="106-dT-uVx">
+                    <rect key="frame" x="112" y="52" width="188" height="1"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="LuU-25-W7Z"/>
+                    </constraints>
+                </visualEffectView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="OeZ-86-Lnf" secondAttribute="trailing" constant="20" id="7nL-rv-3W8"/>
+                <constraint firstItem="eI4-fe-PzA" firstAttribute="bottom" secondItem="OeZ-86-Lnf" secondAttribute="bottom" constant="4" id="8Ya-Zo-haX"/>
+                <constraint firstItem="OeZ-86-Lnf" firstAttribute="leading" secondItem="eI4-fe-PzA" secondAttribute="trailing" constant="3" id="BKl-gS-IOU"/>
+                <constraint firstItem="eI4-fe-PzA" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="10" id="FUK-rR-If5"/>
+                <constraint firstItem="eI4-fe-PzA" firstAttribute="top" secondItem="5rj-g9-6Rf" secondAttribute="top" constant="-4" id="I1r-dF-MM5"/>
+                <constraint firstAttribute="trailing" secondItem="106-dT-uVx" secondAttribute="trailing" constant="20" id="NQP-ci-NEk"/>
+                <constraint firstAttribute="trailing" secondItem="5rj-g9-6Rf" secondAttribute="trailing" constant="20" id="RXt-gR-c2S"/>
+                <constraint firstAttribute="bottom" secondItem="eI4-fe-PzA" secondAttribute="bottom" constant="10" id="Tal-8L-l4r"/>
+                <constraint firstItem="eI4-fe-PzA" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="W2m-MI-Oni"/>
+                <constraint firstAttribute="centerY" secondItem="106-dT-uVx" secondAttribute="centerY" constant="0.5" id="aRm-7d-KVP"/>
+                <constraint firstItem="106-dT-uVx" firstAttribute="leading" secondItem="eI4-fe-PzA" secondAttribute="trailing" constant="8" id="s3O-xc-cmc"/>
+                <constraint firstItem="5rj-g9-6Rf" firstAttribute="leading" secondItem="eI4-fe-PzA" secondAttribute="trailing" constant="3" id="yMC-q8-idY"/>
+            </constraints>
+            <point key="canvasLocation" x="351" y="404"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="icon" width="192" height="192"/>
+    </resources>
+</document>

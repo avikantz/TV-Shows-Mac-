@@ -23,7 +23,7 @@
 	NSFileManager *manager = [NSFileManager defaultManager];
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
 	[manager createDirectoryAtPath:[NSString stringWithFormat:@"%@/Listing (Mac)/Images", [paths lastObject]] withIntermediateDirectories:YES attributes:nil error:nil];
-	
+
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

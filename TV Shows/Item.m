@@ -30,30 +30,21 @@
 - (NSString *)itemKind {
 //	if (_itemKind)
 //		return _itemKind;
-	if ([self.itemDisplayName containsString:@".app"])
-		_itemKind = @"Application";
-	else if ([self.itemDisplayName containsString:@".mkv"])
-		_itemKind = @"Matroska Video";
-	else if ([self.itemDisplayName containsString:@".mp4"])
-		_itemKind = @"H264 Video";
-	else if ([self.itemDisplayName containsString:@".avi"])
-		_itemKind = @"xViD Video";
-	else if ([self.itemDisplayName containsString:@".mov"])
-		_itemKind = @"MOV Video File";
-	else if ([self.itemDisplayName containsString:@".cbz"])
-		_itemKind = @"Comic Book";
-	else if ([self.itemDisplayName containsString:@".cbr"])
-		_itemKind = @"Comic Book";
-	else if ([self.itemDisplayName containsString:@".rmvb"])
-		_itemKind = @"Real Video";
-	else if ([self.itemDisplayName containsString:@".srt"])
-		_itemKind = @"Subtitle";
-	else if ([self.itemDisplayName containsString:@".jpg"])
-		_itemKind = @"JPG Image";
-	else if ([self.itemDisplayName containsString:@".png"])
-		_itemKind = @"PNG Image";
-	else
-		_itemKind = @"Folder";
+	if ([self.itemDisplayName containsString:@".app"])		_itemKind = @"Application";
+	else if ([self.itemDisplayName containsString:@".mkv"]) _itemKind = @"Matroska Video";
+	else if ([self.itemDisplayName containsString:@".mp4"]) _itemKind = @"H264 Video";
+	else if ([self.itemDisplayName containsString:@".avi"]) _itemKind = @"xViD Video";
+	else if ([self.itemDisplayName containsString:@".mov"]) _itemKind = @"MOV Video File";
+	else if ([self.itemDisplayName containsString:@".mp3"]) _itemKind = @"MP3 Audio File";
+	else if ([self.itemDisplayName containsString:@".m4a"]) _itemKind = @"AAC Audio File";
+	else if ([self.itemDisplayName containsString:@".flv"]) _itemKind = @"Flash Video File";
+	else if ([self.itemDisplayName containsString:@".cbz"]) _itemKind = @"Comic Book Zip Archive";
+	else if ([self.itemDisplayName containsString:@".cbr"]) _itemKind = @"Comic Book RAR Archive";
+	else if ([self.itemDisplayName containsString:@".rmvb"]) _itemKind = @"Real Video";
+	else if ([self.itemDisplayName containsString:@".srt"]) _itemKind = @"Subtitle";
+	else if ([self.itemDisplayName containsString:@".jpg"]) _itemKind = @"JPG Image";
+	else if ([self.itemDisplayName containsString:@".png"]) _itemKind = @"PNG Image";
+	else _itemKind = @"Folder";
 	return _itemKind;
 }
 

@@ -23,6 +23,8 @@
 @property (weak) IBOutlet NSTextField *pathTextField;
 - (IBAction)pathTextFieldDidReturn:(id)sender;
 
+@property (weak) IBOutlet NSProgressIndicator *progressView;
+
 @property (weak) IBOutlet NSTextField *savedToDesktopLabel;
 
 @property (weak) IBOutlet NSButton *exportButton;

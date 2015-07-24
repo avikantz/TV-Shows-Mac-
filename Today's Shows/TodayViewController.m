@@ -23,6 +23,9 @@
 	NSMutableArray *FullList;
 	NSMutableArray *ShowList;
 	NSMutableArray *TodaysShows;
+	
+	NSInteger episodeCount;
+	CGFloat sizeCount;
 }
 
 #pragma mark - NSViewController
@@ -38,25 +41,14 @@
 	
 	ShowList = [TVShow returnShowArrayFromJsonStructure:FullList];
 	
-	NSDate *referenceDate = [NSDate date];
-	NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
-	
-	NSInteger weekDay = [calendar component:NSCalendarUnitWeekday fromDate:referenceDate];
-	
-	TodaysShows = [[NSMutableArray alloc] init];
-	
+	sizeCount = 0;
+	episodeCount = 0;
 	for (TVShow *show in ShowList) {
-		if (weekDay == show.weekDay) {
-			[TodaysShows addObject:[NSString stringWithFormat:@"%@", show.Title]];
-		}
+		episodeCount += show.Episodes;
+		sizeCount += show.Size;
 	}
 	
-	NSLog(@"\nToday: %@", TodaysShows);
-	
-	if (TodaysShows.count > 0)
-		self.listViewController.contents = TodaysShows;
-	else
-		self.listViewController.contents = @[@"No shows today. :("];
+	self.listViewController.contents = @[@""];
 	
 }
 
@@ -90,7 +82,11 @@
 	
 	TodaysShows = [[NSMutableArray alloc] init];
 	
+	sizeCount = 0;
+	episodeCount = 0;
 	for (TVShow *show in ShowList) {
+		episodeCount += show.Episodes;
+		sizeCount += show.Size;
 		if (weekDay == show.weekDay) {
 			[TodaysShows addObject:[NSString stringWithFormat:@"%@ (%@)", show.Title, show.NextEpisode]];
 		}
@@ -98,10 +94,12 @@
 	
 	NSLog(@"\nToday: %@", TodaysShows);
 	
-	if (TodaysShows.count > 0)
+	if (TodaysShows.count > 0) {
 		self.listViewController.contents = TodaysShows;
-	else
-		self.listViewController.contents = @[@"No shows today. :("];
+	}
+	else {
+		self.listViewController.contents = @[[NSString stringWithFormat:@"No shows today."]];
+	}
 	
     completionHandler(NCUpdateResultNoData);
 }
@@ -111,27 +109,10 @@
     return NSEdgeInsetsMake(6, 0, 6, 0);
 }
 
--(void)viewDidAppear {
-	
-}
-
 - (BOOL)widgetAllowsEditing {
     // Return YES to indicate that the widget supports editing of content and
     // that the list view should be allowed to enter an edit mode.
     return NO;
-}
-
-- (void)widgetDidBeginEditing {
-    // The user has clicked the edit button.
-    // Put the list view into editing mode.
-    self.listViewController.editing = YES;
-}
-
-- (void)widgetDidEndEditing {
-    // The user has clicked the Done button, begun editing another widget,
-    // or the Notification Center has been closed.
-    // Take the list view out of editing mode.
-    self.listViewController.editing = NO;
 }
 
 #pragma mark - NCWidgetListViewDelegate
@@ -188,6 +169,8 @@
 - (void)widgetSearch:(NCWidgetSearchViewController *)searchController resultSelected:(id)object {
     // The user has selected a search result from the list.
 }
+
+#pragma mark - Other
 
 - (NSString *)documentsPathForFileName:(NSString *)name {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);

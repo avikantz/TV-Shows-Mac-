@@ -33,6 +33,8 @@
 - (NSString *)stringByRemovingName:(NSString *)name FromString:(NSString *)string {
 	NSString *newString = [string stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@ - ", name] withString:@""];
 	newString = [newString stringByReplacingOccurrencesOfString:@".mkv" withString:@""];
+	newString = [newString stringByReplacingOccurrencesOfString:@".avi" withString:@""];
+	newString = [newString stringByReplacingOccurrencesOfString:@".srt" withString:@""];
 	newString = [newString stringByReplacingOccurrencesOfString:@".mp4" withString:@""];
 	return newString;
 }

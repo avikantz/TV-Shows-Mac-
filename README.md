@@ -2,7 +2,7 @@ TV Shows Listing app for Mac OS X.
 
 This app lists your personal collection of TV series.
 
-The list generator (⌘G) works by adding information about files and folders contained in the root TV Series folder. Shows arranged as: Root/'ShowName’/'SeasonName or Episodes’/'EpisodeFiles in Season'
+The list generator (⌘G) works by adding information about files and folders contained in the root TV Series folder. Shows arranged as: Root/'ShowName'/'SeasonName or Episodes'/'EpisodeFiles in Season'
 
 Alternatively adding a show manually is done in format:<br>
 Name: Show Title<br>

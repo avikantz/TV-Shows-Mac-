@@ -19,6 +19,8 @@
 	NSMutableString *detailString;
 	NSInteger seasonCount, episodeCount;
 	CGFloat sizeCount;
+	
+	CGFloat incProgressValue;
 }
 
 - (void)viewDidLoad {
@@ -27,6 +29,8 @@
 	
 	_exportButton.hidden = YES;
 	_appendButton.hidden = YES;
+	
+	_progressView.hidden = YES;
 	
 	_savedToDesktopLabel.stringValue = @"Enter path of the root \"Shows\" directory.";
 	
@@ -37,12 +41,19 @@
 
 - (IBAction)pathTextFieldDidReturn:(id)sender {
 	
+	_progressView.minValue = 0;
+	_progressView.maxValue = 0;
+	_progressView.doubleValue = 0;
+	_progressView.hidden = NO;
+	
 	[[NSUserDefaults standardUserDefaults] setObject:_pathTextField.stringValue forKey:@"lastEditedPath"];
 	
 	showList = [[NSMutableArray alloc] init];
 	
 	NSFileManager *manager = [NSFileManager defaultManager];
 	NSArray *contents = [manager contentsOfDirectoryAtPath:[NSString stringWithFormat:@"%@", _pathTextField.stringValue] error:nil];
+	
+	incProgressValue = 100/(contents.count + 1);
 	
 	// Root Path : Root Directory
 	[contents enumerateObjectsUsingBlock:^(NSString *filename, NSUInteger idx, BOOL *stop) {
@@ -52,6 +63,8 @@
 		item.itemPath = [[NSString stringWithFormat:@"%@", _pathTextField.stringValue] stringByAppendingPathComponent:filename];
 		
 		NSMutableDictionary *show = [[NSMutableDictionary alloc] init];
+		
+		[_progressView incrementBy:incProgressValue];
 		
 		// Subfolder Level 1 : Show Folder
 		if ([item.itemKind isEqualToString:@"Folder"]) {
@@ -96,11 +109,9 @@
 						
 						Item *subSubItem = [[Item alloc] init];
 						subSubItem.itemPath = [subItem.itemPath stringByAppendingPathComponent:obj2];
-						
-						if (!([subSubItem.itemKind isEqualToString:@"Subtitle"] || [subSubItem.itemKind isEqualToString:@"Folder"])&& subSubItem.itemSize > 0.001) {
-							sizeCount += subSubItem.itemSize;
+						sizeCount += subSubItem.itemSize;
+						if ([subSubItem.itemKind containsString:@"Video"] || [subSubItem.itemKind containsString:@"Book"]) {
 							episodeCount++;
-							
 							[titleArray addObject:[NSString stringWithFormat:@"%@\n", [subSubItem.itemDisplayName stringByDeletingPathExtension]]];
 							//							[seasonDetailString appendString:[NSString stringWithFormat:@"%@\n", [subSubItem.itemDisplayName stringByDeletingPathExtension]]];
 						}
@@ -149,6 +160,8 @@
 	else {
 		_savedToDesktopLabel.stringValue = @"No shows/episodes found. Enter path again.";
 	}
+	
+	_progressView.hidden = YES;
 }
 
 - (IBAction)openAction:(id)sender {

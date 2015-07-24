@@ -14,6 +14,8 @@
 #import "EditorViewController.h"
 #import "SortViewController.h"
 #import "GeneratorViewController.h"
+#import "BRRequest.h"
+#import "BRRequestUpload.h"
 
 typedef NS_ENUM(NSInteger, SortOrder) {
 	SortOrder_RANKING = 1,
@@ -27,13 +29,19 @@ typedef NS_ENUM(NSInteger, SortOrder) {
 	SortOrder_SIZE_DES = 9,
 };
 
-@interface ViewController : NSViewController <NSTableViewDataSource, NSTableViewDelegate, NSOpenSavePanelDelegate, NSUserNotificationCenterDelegate, AddShowDelegate, ShowEditorDelegate, SortingDelegate, GeneratorDelegate>
+@interface ViewController : NSViewController <NSTableViewDataSource, NSTableViewDelegate, NSOpenSavePanelDelegate, NSUserNotificationCenterDelegate, AddShowDelegate, ShowEditorDelegate, SortingDelegate, GeneratorDelegate, BRRequestDelegate>
 
 @property (weak) IBOutlet AppDelegate *appDelegate;
 
 @property (weak) IBOutlet NSTableView *tableView;
 
+@property (weak) IBOutlet NSTextField *titleLabel;
+
+@property (weak) IBOutlet NSButton *addButton;
+
 @property (weak) IBOutlet NSButton *sortOrderButton;
+
+@property (weak) IBOutlet NSButton *generatorButton;
 
 @property (weak) IBOutlet NSButton *informationButton;
 
@@ -44,6 +52,9 @@ typedef NS_ENUM(NSInteger, SortOrder) {
 - (IBAction)sortAction:(id)sender;
 
 - (IBAction)openAction:(id)sender;
+
+- (IBAction)shareAction:(id)sender;
+
 
 @end
 
