@@ -44,7 +44,6 @@
 		5955F0711B53896200FA288B /* ListRowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5955F0701B53896200FA288B /* ListRowViewController.xib */; };
 		5955F0741B53896200FA288B /* Today's Shows.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5955F05D1B53896200FA288B /* Today's Shows.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5955F07F1B5389A400FA288B /* TVShow.m in Sources */ = {isa = PBXBuildFile; fileRef = 5955F07E1B5389A400FA288B /* TVShow.m */; };
-		596397721B5A830500B2286F /* GRPushSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 596397711B5A830500B2286F /* GRPushSegue.m */; };
 		5970FD4D1B48447D00770657 /* NSImage+Blur.m in Sources */ = {isa = PBXBuildFile; fileRef = 5970FD4C1B48447D00770657 /* NSImage+Blur.m */; };
 		598774CF1B53B53C002AE8E0 /* CURRENTLY_FOLLOWING.png in Resources */ = {isa = PBXBuildFile; fileRef = 598774CE1B53B53C002AE8E0 /* CURRENTLY_FOLLOWING.png */; };
 		59EAE0FC1B614046002812FB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59EAE0FB1B614046002812FB /* libz.dylib */; };
@@ -171,8 +170,6 @@
 		5955F07D1B5389A400FA288B /* TVShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVShow.h; sourceTree = "<group>"; };
 		5955F07E1B5389A400FA288B /* TVShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVShow.m; sourceTree = "<group>"; };
 		5955F0801B538E0300FA288B /* TV Shows.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "TV Shows.entitlements"; sourceTree = "<group>"; };
-		596397701B5A830500B2286F /* GRPushSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRPushSegue.h; sourceTree = "<group>"; };
-		596397711B5A830500B2286F /* GRPushSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRPushSegue.m; sourceTree = "<group>"; };
 		5970FD4B1B48447D00770657 /* NSImage+Blur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+Blur.h"; sourceTree = "<group>"; };
 		5970FD4C1B48447D00770657 /* NSImage+Blur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Blur.m"; sourceTree = "<group>"; };
 		598774CE1B53B53C002AE8E0 /* CURRENTLY_FOLLOWING.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CURRENTLY_FOLLOWING.png; sourceTree = "<group>"; };
@@ -277,14 +274,12 @@
 				5955F0801B538E0300FA288B /* TV Shows.entitlements */,
 				593799EC1B3D681800B6B843 /* AppDelegate.h */,
 				593799ED1B3D681800B6B843 /* AppDelegate.m */,
+				59EAE0FF1B614464002812FB /* BlackRaccoon */,
+				59EAE11F1B614484002812FB /* SSZip */,
 				59379A191B3D723100B6B843 /* Model */,
 				59379A1B1B3D724800B6B843 /* Controller */,
 				59379A1A1B3D723B00B6B843 /* View */,
-				5963976F1B5A830500B2286F /* GRPushSegue */,
-				59EAE11F1B614484002812FB /* SSZip */,
-				59EAE0FF1B614464002812FB /* BlackRaccoon */,
 				594A1B0B1B628129003F5CD2 /* GRVibrantTitlebarWindow */,
-				59379A161B3D6A1A00B6B843 /* TableCellViews */,
 				593799F41B3D681800B6B843 /* Images.xcassets */,
 				593799EA1B3D681800B6B843 /* Supporting Files */,
 			);
@@ -348,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				593799F61B3D681800B6B843 /* Main.storyboard */,
+				59379A161B3D6A1A00B6B843 /* TableCellViews */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -485,15 +481,6 @@
 				5955F0651B53896200FA288B /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		5963976F1B5A830500B2286F /* GRPushSegue */ = {
-			isa = PBXGroup;
-			children = (
-				596397701B5A830500B2286F /* GRPushSegue.h */,
-				596397711B5A830500B2286F /* GRPushSegue.m */,
-			);
-			path = GRPushSegue;
 			sourceTree = "<group>";
 		};
 		59EAE0FF1B614464002812FB /* BlackRaccoon */ = {
@@ -764,7 +751,6 @@
 				59379A2A1B3D9DD700B6B843 /* EditorViewController.m in Sources */,
 				59EAE1331B614484002812FB /* SSZipArchive.m in Sources */,
 				59EAE11C1B614464002812FB /* BRRequestQueue.m in Sources */,
-				596397721B5A830500B2286F /* GRPushSegue.m in Sources */,
 				593799EE1B3D681800B6B843 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

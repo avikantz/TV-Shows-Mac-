@@ -470,7 +470,7 @@ Gw
                 </viewController>
                 <customObject id="mER-dN-g4M" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1124" y="665.5"/>
+            <point key="canvasLocation" x="1161" y="387.5"/>
         </scene>
         <!--Sort View Controller-->
         <scene sceneID="Nmq-h7-Pja">
@@ -821,12 +821,19 @@ Gw
                                     <visualEffectView appearanceType="vibrantDark" fixedFrame="YES" blendingMode="behindWindow" material="dark" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="FJx-SA-xe6">
                                         <rect key="frame" x="0.0" y="436" width="640" height="1"/>
                                     </visualEffectView>
-                                    <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5FV-0U-tdW">
+                                    <imageView translatesAutoresizingMaskIntoConstraints="NO" id="5FV-0U-tdW">
                                         <rect key="frame" x="0.0" y="471" width="640" height="9"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="9" id="JeT-Qu-Bui"/>
+                                        </constraints>
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="axesIndependently" image="separator" id="QER-AQ-Hb2"/>
                                     </imageView>
-                                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UXA-Kg-U3C">
+                                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UXA-Kg-U3C">
                                         <rect key="frame" x="616" y="476" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="E2T-nD-6bs"/>
+                                            <constraint firstAttribute="height" constant="20" id="Nvx-jr-RpZ"/>
+                                        </constraints>
                                         <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="NSShareTemplate" imagePosition="overlaps" alignment="left" imageScaling="proportionallyDown" inset="2" id="0PK-78-M78">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -838,6 +845,13 @@ Gw
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="5FV-0U-tdW" firstAttribute="leading" secondItem="p1q-ax-TPv" secondAttribute="leading" id="9V5-xf-NB4"/>
+                                    <constraint firstAttribute="trailing" secondItem="5FV-0U-tdW" secondAttribute="trailing" id="CrV-cT-tXE"/>
+                                    <constraint firstItem="5FV-0U-tdW" firstAttribute="top" secondItem="p1q-ax-TPv" secondAttribute="top" constant="20" id="Jvt-MI-KPh"/>
+                                    <constraint firstAttribute="trailing" secondItem="UXA-Kg-U3C" secondAttribute="trailing" constant="4" id="Qfr-av-vWj"/>
+                                    <constraint firstItem="UXA-Kg-U3C" firstAttribute="top" secondItem="p1q-ax-TPv" secondAttribute="top" constant="4" id="nJo-cI-wwv"/>
+                                </constraints>
                             </visualEffectView>
                             <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="29" horizontalPageScroll="10" verticalLineScroll="29" verticalPageScroll="10" hasHorizontalScroller="NO" minMagnification="1" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mu3-EV-nhh">
                                 <rect key="frame" x="0.0" y="0.0" width="640" height="436"/>
@@ -1098,7 +1112,7 @@ Gw
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="169" y="732"/>
+            <point key="canvasLocation" x="75" y="732"/>
         </scene>
         <!--Help View Controller-->
         <scene sceneID="sZi-fu-tHy">
@@ -1248,8 +1262,10 @@ Gw
                     </view>
                     <connections>
                         <outlet property="episodeCountLabel" destination="6HT-Up-z6P" id="Dz6-hX-ZYm"/>
+                        <outlet property="episodeLabel" destination="Rx0-Jc-pbd" id="xC9-Sx-YDG"/>
                         <outlet property="showsCountLabel" destination="7hI-jZ-GxQ" id="th4-nl-LFf"/>
                         <outlet property="sizeCountLabel" destination="RW2-3u-epN" id="hPs-hu-PWb"/>
+                        <outlet property="sizeLabel" destination="Sby-nL-WZL" id="cNb-Lw-i3D"/>
                     </connections>
                 </viewController>
                 <customObject id="Vy0-dE-RPD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1367,7 +1383,7 @@ CA
                                 </comboBoxCell>
                             </comboBox>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rEt-Le-XhD">
-                                <rect key="frame" x="0.0" y="482" width="360" height="11"/>
+                                <rect key="frame" x="0.0" y="481" width="360" height="11"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="separator" id="peF-vR-EeQ"/>
                             </imageView>
                         </subviews>
@@ -1399,7 +1415,7 @@ CA
                 </viewController>
                 <customObject id="CZq-B5-y49" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="778" y="742"/>
+            <point key="canvasLocation" x="739" y="732"/>
         </scene>
         <!--Generator View Controller-->
         <scene sceneID="qQg-Lz-JWf">

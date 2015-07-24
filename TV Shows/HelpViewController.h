@@ -17,5 +17,9 @@
 @property (weak) IBOutlet NSTextField *sizeCountLabel;
 @property (weak) IBOutlet NSTextField *showsCountLabel;
 @property (weak) IBOutlet NSTextField *episodeCountLabel;
+@property (weak) IBOutlet NSTextField *episodeLabel;
+@property (weak) IBOutlet NSTextField *sizeLabel;
+
+
 
 @end

@@ -23,6 +23,9 @@
 	NSInteger episodeCount;
 	CGFloat sizeCount;
 	
+	NSInteger tEpisodeCount;
+	CGFloat tSizeCount;
+	
 	BOOL optionKeyPressed;
 	
 	BRRequestUpload *uploadFile;
@@ -40,6 +43,7 @@
 	_generatorButton.alphaValue = 0.0;
 	_informationButton.alphaValue = 0.0;
 	_tableView.alphaValue = 0.5;
+	_titleLabel.alphaValue = 0.0;
 	
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
 		context.duration = 1.6f;
@@ -50,6 +54,7 @@
 		[_generatorButton.animator setAlphaValue:1.f];
 		[_informationButton.animator setAlphaValue:1.f];
 		[_tableView.animator setAlphaValue:1.f];
+		[_titleLabel.animator setAlphaValue:1.f];
 	} completionHandler:nil];
 	
 	_tableView.dataSource = self;
@@ -639,17 +644,21 @@
 #pragma mark - Other
 
 -(void)updateSortAndInformationLabels {
-	episodeCount = 0;
-	sizeCount = 0.f;
+	episodeCount = tEpisodeCount = 0;
+	sizeCount = tSizeCount = 0.f;
 	for (TVShow *show in ShowList) {
 		episodeCount += show.Episodes;
 		sizeCount += show.Size;
 	}
-	_informationButton.title = [NSString stringWithFormat:@"%li Episodes (%.2f GB)", episodeCount, sizeCount];
+	NSMutableArray *fullShowList = [TVShow returnShowArrayFromJsonStructure:FullList];
+	for (TVShow *show in fullShowList) {
+		tEpisodeCount += show.Episodes;
+		tSizeCount += show.Size;
+	}
+	_informationButton.title = [NSString stringWithFormat:@"%li Show%@ (%.2f GB)", ShowList.count, (ShowList.count > 1)?@"s":@"", sizeCount];
+	_titleLabel.stringValue = [NSString stringWithFormat:@"TV Listing (%li Shows, %li Episodes, %.2f GB)", FullList.count, tEpisodeCount, tSizeCount];
 	_sortOrderButton.title = [SortViewController titleForSortOrder:sortOrder];
 	[self updateAppIcon];
-	
-	self.view.window.title = [NSString stringWithFormat:@"TV Shows (Total: %li)", FullList.count];
 	
 	NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.avikantz.todaysshows"];
 	[sharedDefaults setObject:FullList forKey:@"fulllist"];

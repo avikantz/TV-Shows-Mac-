@@ -226,7 +226,7 @@
             break;
             
         default:
-            errorMessage = @"Unknown error!";
+            errorMessage = @"Network error";
             break;
     }
     

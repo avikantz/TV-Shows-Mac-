@@ -241,6 +241,13 @@
         {
             [self.streamInfo streamError: self errorCode: [BRRequestError errorCodeWithError: [theStream streamError]]];
             InfoLog(@"%@", self.error.message);
+			if ([self.error.message isEqualToString:@"Network error"]) {
+				NSAlert *alert = [[NSAlert alloc] init];
+				[alert setMessageText:[NSString stringWithFormat:@"Upload failed."]];
+				[alert setInformativeText:[NSString stringWithFormat:@"File \"shows.zip\" upload to server \"lordykw.comxa.com\" failed: %@.", self.error.message]];
+				[alert addButtonWithTitle:@"Aw crap."];
+				[alert runModal];
+			}
         }
         break;
             
