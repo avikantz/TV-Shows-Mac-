@@ -19,8 +19,8 @@
 		show.Day = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Day"]];
 		
 		show.imageBannerURL = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"imageBanner"]];
-		show.imageFanartURL = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"imageFanart"]];
-		show.imagePosterURL = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"imagePoster"]];
+		show.imageFanartURL = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"imageFanart"]];
+		show.imagePosterURL = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"imagePoster"]];
 		
 		show.Episodes = [self numberOfEpisodesInString:show.Detail];
 		show.Size = [self sizeOfShowFromString:show.Detail];
@@ -29,6 +29,8 @@
 		show.CURRENTLY_FOLLOWING = [show.Detail containsString:@"CURRENTLY_FOLLOWING"];
 		show.TO_BE_DOWNLOADED = [show.Detail containsString:@"TO_BE_DOWNLOADED"];
 		show.TO_BE_ENCODED = [show.Detail containsString:@"TO_BE_ENCODED"];
+		
+		show.NextEpisode = [self nextEpisodeFromString:show.Detail];
 		
 		if ([show.Day isEqualToString:@"SUN"]) show.weekDay = 1;
 		if ([show.Day isEqualToString:@"MON"]) show.weekDay = 2;
@@ -79,15 +81,18 @@
 
 +(NSString *)nextEpisodeFromString:(NSString *)string {
 	NSMutableString *nextep = [NSMutableString new];
-	if ([string containsString:@"Season"] || [string containsString:@"Series"] || [string containsString:@"Saga"]) {
+	if ([string containsString:@"Season"] || [string containsString:@"Series"]) {
 		[nextep appendFormat:@"%lix", [string integerValue]];
 		for (long i = string.length - 1; i >= 0 ; --i) {
 			if ([string characterAtIndex:i] == 'x' && [string characterAtIndex:i-1] == [string characterAtIndex:0]) {
-				NSLog(@"subs: %@", [string substringFromIndex:i+1]);
+//				NSLog(@"subs: %@", [string substringFromIndex:i+1]);
 				[nextep appendFormat:@"%0.2li", [[string substringFromIndex:i+1] integerValue]+1];
 				break;
 			}
 		}
+	}
+	else if ([string containsString:@"Saga"]){
+		[nextep appendFormat:@"%0.3li", [self numberOfEpisodesInString:string]+1];
 	}
 	else {
 		[nextep appendFormat:@"%0.2li", [string integerValue]+1];

@@ -538,6 +538,7 @@
 	if ([segue.identifier isEqualToString:@"editorSegue"]) {
 		TVShow *show = [ShowList objectAtIndex:[_tableView clickedRow]];
 		EditorViewController *evc = [segue destinationController];
+		
 		evc.delegate = self;
 		evc.show = show;
 	}
@@ -615,7 +616,7 @@
 	for (TVShow *show in sortedArray) {
 			NSUserNotification *notification = [[NSUserNotification alloc] init];
 			notification.title = [NSString stringWithFormat:@"\"%@\"", show.Title];
-			notification.informativeText = [NSString stringWithFormat:@"New episode for %@", show.Title];
+			notification.informativeText = [NSString stringWithFormat:@"New episode for %@ (%@)", show.Title, show.NextEpisode];
 			
 			NSDate *referenceDate = [NSDate date];
 			NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
@@ -632,9 +633,9 @@
 			[[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
 	}
 	
-//	scheduledNotifications = [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications];
-//	for (NSUserNotification *not in scheduledNotifications)
-//		NSLog(@"\n%@ - %@\n\n", not.title, not.deliveryDate);
+	scheduledNotifications = [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications];
+	for (NSUserNotification *not in scheduledNotifications)
+		NSLog(@"\n%@ - %@\n\n", not.informativeText, not.deliveryDate);
 }
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{

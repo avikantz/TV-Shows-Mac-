@@ -31,6 +31,9 @@
 	else
 		self.dayPickerComboBox.hidden = YES;
 	
+	[[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationDidResignActiveNotification object:nil queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification * _Nonnull note) {
+		[self doneAction:nil];
+	}];
 	
 	
 //	[self updateImages];
